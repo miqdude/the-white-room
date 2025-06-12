@@ -7,6 +7,7 @@ public class EnemyAttack : MonoBehaviour
 	public float launchSpeedMin = 5f, launchSpeedMax = 20f;
 	public Transform bulletPivot;
 	public float bulletCooldownTime = .8f;
+	public int BulletDamage = 3;
 
 	public Transform playerPos;
 	public float movingSpeed = 5f;

@@ -1,3 +1,4 @@
+using Microlight.MicroBar;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
@@ -8,10 +9,14 @@ public class HealthSystem : MonoBehaviour
 	[SerializeField]
 	int CurrHP = 100;
 
+	[SerializeField]
+	MicroBar healthBar;
+
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
 		CurrHP = MaxHP;
+		healthBar.Initialize(MaxHP);
 	}
 
 	// Update is called once per frame
@@ -23,6 +28,11 @@ public class HealthSystem : MonoBehaviour
 	public void GiveDamage(int amount)
 	{
 		CurrHP -= amount;
+
+		if (healthBar != null)
+		{
+			healthBar.UpdateBar(CurrHP - amount);
+		}
 	}
 
 	public int GetCurrentHP()

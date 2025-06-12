@@ -8,9 +8,6 @@ public class Laser : MonoBehaviour
 	int damage = 5;
 
 	[SerializeField]
-	float MaxLaserDistance = 5f;
-
-	[SerializeField]
 	LayerMask PlayerLayer = 0;
 
 	public Transform LaserEndPoint;

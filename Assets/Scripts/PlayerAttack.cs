@@ -6,6 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
 	public Transform HurtBoxPoint;
 	public GameObject AxeHandHolder, AxeBackHolder;
+	public int Damage=10;
 
 	[SerializeField]
 	LayerMask EnemyLayerMask = 0;
@@ -97,7 +98,7 @@ public class PlayerAttack : MonoBehaviour
 		foreach (Collider hitEnemy in hitEnemies)
 		{
 			HealthSystem enemyHealth = hitEnemy.GetComponent<HealthSystem>();
-			enemyHealth.GiveDamage(10);
+			enemyHealth.GiveDamage(Damage);
 
 			Enemy enemy = hitEnemy.GetComponent<Enemy>();
 

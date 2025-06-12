@@ -29,6 +29,7 @@ public class EnemyAttackBallShower : EnemyAttackingBase
 		{
 			var projectile = enemy.SpawnBullet();
 			projectile.GetComponent<Rigidbody>().linearVelocity = selectedLaunchSpeed * enemy.shootPosition.up;
+			projectile.GetComponent<Bullet>().damage = enemy.BulletDamage;
 
 			enemy.bulletPivot.Rotate(new Vector3(0, 20f, 0));
 		}
