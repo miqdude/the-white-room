@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
@@ -48,8 +47,8 @@ public class EnemyAttack : MonoBehaviour
 		}
 		else
 		{
-			// int rnd = Random.Range(1, 5);
-			int rnd = 1;
+			int rnd = Random.Range(1, 5);
+			// int rnd = 0;
 
 			currentAttackState.ExitState(this);
 
@@ -62,7 +61,7 @@ public class EnemyAttack : MonoBehaviour
 					currentAttackState = enemyAttackApproachPlayer;
 					break;
 				case 3:
-					// currentAttackState = enemyAttackLaser;
+					currentAttackState = enemyAttackLaser;
 					break;
 				default:
 					currentAttackState = enemyAttackIdle;
@@ -77,6 +76,6 @@ public class EnemyAttack : MonoBehaviour
 
 	public GameObject SpawnBullet()
 	{
-		return Instantiate(bulletPrefab, shootPosition.position, quaternion.identity);
+		return Instantiate(bulletPrefab, shootPosition.position, Quaternion.identity);
 	}
 }

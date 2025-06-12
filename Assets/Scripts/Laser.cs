@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+	float laserHitRemaining;
+
 	[SerializeField]
 	int damage = 5;
 
@@ -11,30 +13,50 @@ public class Laser : MonoBehaviour
 	[SerializeField]
 	LayerMask PlayerLayer = 0;
 
-	Vector3 laserEndPoint;
+	public Transform LaserEndPoint;
+	public float laserRadius = .3f;
+	public float laserHitFrequency = .3f; 
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		laserEndPoint = transform.position + transform.forward * MaxLaserDistance;
+		laserHitRemaining = laserHitFrequency;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		RaycastHit raycastHit;
-		bool isHit = Physics.Raycast(transform.position, transform.forward, out raycastHit, MaxLaserDistance, PlayerLayer);
 
-		if (isHit)
+		if (laserHitRemaining <= 0f)
 		{
-			laserEndPoint = raycastHit.point;
+			Collider[] hitPlayers = Physics.OverlapCapsule(transform.position, LaserEndPoint.position, laserRadius, PlayerLayer);
 
-			Debug.Log("Laser hit " + raycastHit.collider.name);
+			foreach (Collider hitPlayer in hitPlayers)
+			{
+				if (hitPlayer.gameObject.CompareTag("Player"))
+				{
+					HealthSystem playerHealth = hitPlayer.GetComponent<HealthSystem>();
+
+					playerHealth.GiveDamage(2);
+
+					// Debug.Log("Laser Damage player");
+				}
+			}
+		}
+
+
+		if (laserHitRemaining > 0f)
+		{
+			laserHitRemaining -= Time.deltaTime;
+		}
+		else
+		{
+			laserHitRemaining = laserHitFrequency;
 		}
 	}
 
 	void OnDrawGizmos()
 	{
-		Debug.DrawRay(transform.position, transform.forward * MaxLaserDistance, Color.red);
+		// Debug.DrawRay(transform.position, LaserEndPoint.transform.position, Color.red);
 	}
 }
