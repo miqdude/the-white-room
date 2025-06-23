@@ -13,10 +13,12 @@ public class EnemyAttack : MonoBehaviour
 	public float movingSpeed = 5f;
 	public GameObject LaserParent;
 	public float LaserSpiningSpeed = 3f;
-
-
 	public float stateTime = 10f;
+
+
 	float stateTimeRemaining;
+	bool canAttack = true;
+	CharacterController characterController;
 	EnemyAttackingBase currentAttackState;
 	EnemyAttackBallShower enemyAttackBallShower = new EnemyAttackBallShower();
 	EnemyAttackApproachPlayer enemyAttackApproachPlayer = new EnemyAttackApproachPlayer();
@@ -26,6 +28,8 @@ public class EnemyAttack : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		characterController = GetComponent<CharacterController>();
+
 		if (bulletPrefab == null)
 		{
 			Debug.Log("No bullet prefab!");
@@ -40,6 +44,11 @@ public class EnemyAttack : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (!canAttack)
+		{
+			return;
+		}
+
 		currentAttackState.FrameUpdate(this);
 
 		if (stateTimeRemaining > 0f)
@@ -49,7 +58,7 @@ public class EnemyAttack : MonoBehaviour
 		else
 		{
 			int rnd = Random.Range(1, 5);
-			// int rnd = 0;
+			// int rnd = 2;
 
 			currentAttackState.ExitState(this);
 
@@ -75,8 +84,19 @@ public class EnemyAttack : MonoBehaviour
 		}
 	}
 
+	public void DisableAttack()
+	{
+		canAttack = false;
+		currentAttackState.ExitState(this);
+	}
+
 	public GameObject SpawnBullet()
 	{
 		return Instantiate(bulletPrefab, shootPosition.position, Quaternion.identity);
+	}
+
+	public void Move(Vector3 dir)
+	{
+		characterController.Move(dir);
 	}
 }

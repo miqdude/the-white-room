@@ -6,7 +6,9 @@ public class PlayerAttack : MonoBehaviour
 {
 	public Transform HurtBoxPoint;
 	public GameObject AxeHandHolder, AxeBackHolder;
-	public int Damage=10;
+	public int Damage = 10;
+	public AudioClip attackClip1;
+	public bool IsAttackDisabled = false;
 
 	[SerializeField]
 	LayerMask EnemyLayerMask = 0;
@@ -15,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
 	float HurtBoxRadius = 3f;
 
 	private ThirdPersonController controller;
+	AudioSource audioSource;
 
 	Animator animator;
 	private InputSystem_Actions _input;
@@ -23,6 +26,7 @@ public class PlayerAttack : MonoBehaviour
 	{
 		_input = new InputSystem_Actions();
 		controller = GetComponent<ThirdPersonController>();
+		audioSource = GetComponent<AudioSource>();
 	}
 
 
@@ -49,11 +53,17 @@ public class PlayerAttack : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 
 	void LightAttack()
 	{
+		if (IsAttackDisabled)
+		{
+			Debug.Log("controller can move" + controller.canMove);
+			return;
+		}
+
 		// Only perform attack while grounded
 		if (!controller.Grounded)
 		{
@@ -66,7 +76,6 @@ public class PlayerAttack : MonoBehaviour
 
 		int attackIdx = Random.Range(1, 3);
 		// Debug.Log("lightattack " + attackIdx);
-
 
 		switch (attackIdx)
 		{
@@ -93,6 +102,8 @@ public class PlayerAttack : MonoBehaviour
 	// This method is an animator event
 	public void Attack()
 	{
+		PlayAudioEffect(attackClip1);
+
 		Collider[] hitEnemies = Physics.OverlapSphere(HurtBoxPoint.position, HurtBoxRadius, EnemyLayerMask);
 
 		foreach (Collider hitEnemy in hitEnemies)
@@ -128,5 +139,10 @@ public class PlayerAttack : MonoBehaviour
 
 		// Gizmos.color = Color.red;
 		// Gizmos.DrawLine(AxeHandHolder.transform.position, SwordEnpoint.transform.position);
+	}
+
+	void PlayAudioEffect(AudioClip audioClip)
+	{
+		audioSource.PlayOneShot(audioClip);
 	}
 }

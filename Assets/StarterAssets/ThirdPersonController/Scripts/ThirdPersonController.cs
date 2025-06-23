@@ -137,6 +137,8 @@ namespace StarterAssets
 
         private void Start()
         {
+            canMove = true;
+
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -277,7 +279,7 @@ namespace StarterAssets
 			// move the player
 			if (canMove)
 			{
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 			}
 

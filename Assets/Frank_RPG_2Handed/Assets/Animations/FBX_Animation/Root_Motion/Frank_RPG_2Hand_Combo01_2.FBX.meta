@@ -596,14 +596,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9197531
+      - time: 0.9237133
         functionName: SetWeaponOnBack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.93363476
+      - time: 0.9425352
         functionName: ResetAttack
         data: 
         objectReferenceParameter: {instanceID: 0}

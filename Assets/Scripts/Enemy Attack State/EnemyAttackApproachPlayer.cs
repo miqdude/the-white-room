@@ -14,7 +14,11 @@ public class EnemyAttackApproachPlayer : EnemyAttackingBase
 		Vector3 dir = playerPos - enemy.transform.position;
 		dir.y = 0;
 
-		enemy.transform.position += dir * enemy.movingSpeed * Time.deltaTime;
+		// enemy.transform.position += dir * enemy.movingSpeed * Time.deltaTime;
+		if (dir.magnitude > 0.1f)
+		{
+			enemy.Move(dir.normalized * enemy.movingSpeed * Time.deltaTime);
+		}
 	}
 	
 	public override void ExitState(EnemyAttack enemy)
